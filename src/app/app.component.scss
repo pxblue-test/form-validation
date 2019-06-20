@@ -1,0 +1,22 @@
+@import '~@pxblue/colors/palette.scss';
+h3 {
+
+  padding: 16px;
+}
+p {
+  margin: 16px;
+}
+mat-card {
+  margin:16px;
+}
+mat-form-field {
+  margin: 16px;
+  width: 95%;
+  align-content: center;
+}
+.success{
+color: map-get($pxb-green, 500 );
+}
+.failure{
+  color: map-get($pxb-red, 500 );
+}

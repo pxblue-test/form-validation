@@ -1,0 +1,10 @@
+/* You can add global styles to this file, and also import other style files */
+// Import PX Blue theme packages
+@import '~@pxblue/themes/angular/theme.scss'; 
+@import '~@pxblue/colors/palette.scss';
+
+body {
+  height: 100%;
+  background-color: map-get($pxb-gray, 50);
+   margin: 0;
+} 

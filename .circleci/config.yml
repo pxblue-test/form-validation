@@ -1,0 +1,30 @@
+version: 2
+jobs:
+  build:
+    working_directory: ~/form-validation
+    docker:
+      - image: circleci/node:8.11-browsers
+    steps:
+      - checkout
+      - restore_cache:
+          key: v1-dependency-cache-{{ checksum "package.json" }}
+      - run:
+          name: Install Dependencies
+          command: yarn install
+      - save_cache:
+          key: v1-dependency-cache-{{ checksum "package.json" }}
+          paths:
+            - ~/.cache
+            - ./node_modules
+      - run:
+          name: Build Angular
+          command: yarn ng build --prod --aot --no-progress
+      - run:
+          name: Test Angular
+          command: yarn test --watch=false --no-progress
+      - store_artifacts:
+          path: test-results/karma/results.xml
+          prefix: tests
+      - store_test_results:
+          path: test-results
+     
