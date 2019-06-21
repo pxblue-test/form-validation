@@ -19,6 +19,7 @@ export class AppComponent {
 
   //Password Match Validator
   userPassword: FormGroup;
+  passwordFormGroup:FormGroup;
   userForm: FormGroup;
   errorMatcher = new CrossFieldErrorMatcher();
   passLength: boolean = false;
@@ -35,14 +36,15 @@ export class AppComponent {
   initForm() {
     this.userPassword = this.fb.group({
       oldPassword: ['', Validators.required],
-      passwordForm: this.fb.group({
-        newPassword: ['', Validators.compose([
-          Validators.required, Validators.minLength(8), Validators.pattern('(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&].{7,}')])],
-        confirmPassword: ['', Validators.required],
-      }, {
-          validator: this.checkPasswords
-        })
+      passwordForm: this.passwordFormGroup
     })
+    this.passwordFormGroup = this.fb.group({
+      newPassword: ['', Validators.compose([
+        Validators.required, Validators.minLength(8), Validators.pattern('(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&].{7,}')])],
+      confirmPassword: ['', Validators.required],
+    }, {
+        validator: this.checkPasswords
+      })
     this.userForm = this.fb.group({
       inputFC: ['', Validators.required,],
       email: ['', Validators.compose([Validators.required, Validators.email, Validators.pattern(/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i)])],

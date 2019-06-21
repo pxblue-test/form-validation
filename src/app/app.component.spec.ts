@@ -60,5 +60,15 @@ it('allows field with a valid old password', () => {
   component.userPassword.controls.oldPassword.setValue("qwert12");
   expect(component.userPassword.controls.oldPassword.valid).toBeTruthy();
 });
+it('allows field with a valid new password', () => {
+  component.passwordFormGroup.controls.newPassword.setValue("qwert12");
+  expect(component.passwordFormGroup.controls.newPassword.valid).toBeFalsy();
+});
+it('allows field with a valid confirm password', () => {
+  component.passwordFormGroup.controls.newPassword.setValue("qwert12");
+  component.passwordFormGroup.controls.confirmPassword.setValue("qwert12");
+  expect(component.passwordFormGroup.controls.newPassword.value).toEqual(component.passwordFormGroup.controls.confirmPassword.value);
+
+});
 
 });
