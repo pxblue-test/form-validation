@@ -304,6 +304,7 @@ class ValidationFrom extends React.Component {
 											{getValidationIcon(this.state.phoneNumberError)}
 										</InputAdornment>),
 								}}
+								// eslint-disable-next-line react/jsx-no-duplicate-props
 								inputProps={{ maxLength: 22 }}
 							/>
 						</div>
