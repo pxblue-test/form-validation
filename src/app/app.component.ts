@@ -36,11 +36,10 @@ export class AppComponent {
   initForm() {
     this.userPassword = this.fb.group({
       oldPassword: ['', Validators.required],
-      passwordForm: this.passwordFormGroup
     })
     this.passwordFormGroup = this.fb.group({
       newPassword: ['', Validators.compose([
-        Validators.required, Validators.minLength(8), Validators.pattern('(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&].{7,}')])],
+        Validators.required, Validators.minLength(8)])],
       confirmPassword: ['', Validators.required],
     }, {
         validator: this.checkPasswords

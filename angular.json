@@ -29,7 +29,7 @@
             ],
             "styles": [
               "src/styles.scss",
-              "./node_modules/typeface-open-sans"
+              "./node_modules/@pxblue/themes/angular/theme.scss"
             ],
             "scripts": []
           },
@@ -90,7 +90,7 @@
             ],
             "styles": [
               "src/styles.scss",
-              "./node_modules/typeface-open-sans"
+              "./node_modules/@pxblue/themes/angular/theme.scss"
             ],
             "scripts": []
           }

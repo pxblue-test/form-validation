@@ -49,6 +49,16 @@ describe('AppComponent', () => {
 it('allows field with a valid phone number', () => {
   component.userForm.controls.phoneNumber.setValue("1234567898");
   expect(component.userForm.controls.phoneNumber.valid).toBeTruthy();
+  component.userForm.controls.phoneNumber.setValue("+1(919)9870998");
+  expect(component.userForm.controls.phoneNumber.valid).toBeTruthy();
+  component.userForm.controls.phoneNumber.setValue("+1(919)9870998");
+  expect(component.userForm.controls.phoneNumber.valid).toBeTruthy();
+  component.userForm.controls.phoneNumber.setValue("+19199870998");
+  expect(component.userForm.controls.phoneNumber.valid).toBeTruthy();
+});
+it('does not allow field with a invalid phone number', () => {
+  component.userForm.controls.phoneNumber.setValue("1-800-CALL-HOME");
+  expect(component.userForm.controls.phoneNumber.valid).toBeFalsy();
   component.userForm.controls.phoneNumber.setValue("123456789");
   expect(component.userForm.controls.phoneNumber.valid).toBeFalsy();
 });
@@ -63,6 +73,10 @@ it('allows field with a valid old password', () => {
 it('allows field with a valid new password', () => {
   component.passwordFormGroup.controls.newPassword.setValue("qwert12");
   expect(component.passwordFormGroup.controls.newPassword.valid).toBeFalsy();
+  component.passwordFormGroup.controls.newPassword.setValue("Qwert12");
+  expect(component.passwordFormGroup.controls.newPassword.valid).toBeFalsy();
+  component.passwordFormGroup.controls.newPassword.setValue("12@Qwert");
+  expect(component.passwordFormGroup.controls.newPassword.valid).toBeTruthy();
 });
 it('allows field with a valid confirm password', () => {
   component.passwordFormGroup.controls.newPassword.setValue("qwert12");
