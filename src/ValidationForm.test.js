@@ -24,14 +24,6 @@ it('does required validation', () => {
     validationForm.doRequiredValidation(event)
     expect(validationForm.state.xyzError).toBe("required");
 
-    event = { target: { id: "confirmPassword", value: "iam same as you" } };
-    validationForm.setState({ newPassword: "iam same as you", confirmPassword: "iam same as you" });
-    validationForm.doRequiredValidation(event)
-    expect(validationForm.state.confirmPasswordError).toBe("");
-
-    validationForm.setState({ newPassword: "iam same as you", confirmPassword: "iam not same as you" });
-    validationForm.doRequiredValidation(event)
-    expect(validationForm.state.confirmPasswordError).toBe("Passwords do not match");
 });
 
 
@@ -51,6 +43,15 @@ it('does password validation', () => {
         validationForm.validatePassword();
         expect(Object.values(validationForm.state.passwordErrors).includes("required")).toBe(true);
     }
+
+    let event = { target: { id: "confirmPassword", value: "iam same as you" } };
+    validationForm.setState({ newPassword: "iam same as you", confirmPassword: "iam same as you" });
+    validationForm.doRequiredValidation(event)
+    expect(validationForm.state.confirmPasswordError).toBe("");
+
+    validationForm.setState({ newPassword: "iam same as you", confirmPassword: "iam not same as you" });
+    validationForm.doRequiredValidation(event)
+    expect(validationForm.state.confirmPasswordError).toBe("Passwords do not match");
 });
 
 it('does emails validation', () => {
@@ -83,7 +84,7 @@ it('does phonenumber validation', () => {
     validationForm.validatePhoneNumber();
     expect(validationForm.state.phoneNumberError).toBe("required");
 
-    let phonenumbers = ["+1(541)754-3010", "+1(234)435-8765", "+1(567)878-0987", "+1(231)348-6512"]; //TODO: add more valid differnt format phone numbers to this list
+    let phonenumbers = ["+1(541)754-3010", "+1(234)435-8765", "+1(567)878-0987", "+1(231)348-6512"]; 
     for (let i = 0; i < phonenumbers.length; i++) {
         validationForm.setState({ phoneNumber: phonenumbers[i] });
         validationForm.validatePhoneNumber();
