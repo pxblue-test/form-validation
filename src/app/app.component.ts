@@ -56,7 +56,7 @@ export class AppComponent {
     this.userForm = this.fb.group({
       inputFC: ['', Validators.required,],
       email: ['', Validators.compose([Validators.required, Validators.email, Validators.pattern(/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i)])],
-      phoneNumber: ['', Validators.compose([Validators.required, Validators.minLength(10), Validators.maxLength(15), Validators.pattern(/((\(\d{3}\)?)|(\d{3}))([\s-./]?)(\d{3})([\s-./]?)(\d{4})/)])],
+      phoneNumber: ['', Validators.compose([Validators.required, Validators.minLength(10), Validators.maxLength(22), Validators.pattern(/((\(\d{3}\)?)|(\d{3}))([\s-./]?)(\d{3})([\s-./]?)(\d{4})/)])],
 
     })
 
