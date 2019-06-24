@@ -22,7 +22,7 @@
           
       <mat-form-field>
         <mat-label>Phone number</mat-label>
-        <input matInput placeholder="Phone Number" formControlName="phoneNumber" required >
+        <input matInput placeholder="Phone Number" formControlName="phoneNumber" (keypress)="numberOnly($event)" required >
          <mat-icon *ngIf="userForm?.controls?.phoneNumber.touched" matSuffix [ngClass]="userForm?.controls?.phoneNumber.errors ? 'failure' : 'success'">{{userForm?.controls?.phoneNumber.errors ? 'clear' : 'done' }}</mat-icon>
         <mat-error *ngIf="userForm.get('phoneNumber').hasError('pattern')">invalid phone number</mat-error>
       </mat-form-field>

@@ -19,7 +19,7 @@ export class AppComponent {
 
   //Password Match Validator
   userPassword: FormGroup;
-  passwordFormGroup:FormGroup;
+  passwordFormGroup: FormGroup;
   userForm: FormGroup;
   errorMatcher = new CrossFieldErrorMatcher();
   passLength: boolean = false;
@@ -28,6 +28,15 @@ export class AppComponent {
   upperFlag: boolean = false;
   lowerFlag: boolean = false;
 
+//this accepts only number in phone number input field
+  numberOnly(event): boolean {
+    const charCode = (event.which) ? event.which : event.keyCode;
+    if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+      return false;
+    }
+    return true;
+
+  }
 
   constructor(private fb: FormBuilder) {
     this.initForm();
