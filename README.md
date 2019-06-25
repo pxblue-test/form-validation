@@ -1,8 +1,8 @@
-# Form Validations
+# Form Validation
 
 [![CircleCI](https://circleci.com/gh/pxblue/form-validation/tree/angular.svg?style=shield)](https://circleci.com/gh/pxblue/form-validation/tree/angular)
 
-This is a sample application showing how to build different types of form validations in the project.
+This is a sample application showing how to perform various types of form field validation.
 
 ## Running the example
 To run this example, first clone the repository. Each of our example projects comes with a branch for Angular and a branch for React. You can choose which branch to use when you clone the repository (or you can switch after cloning as well):
