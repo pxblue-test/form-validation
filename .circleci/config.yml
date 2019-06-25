@@ -1,7 +1,7 @@
 version: 2
 jobs:
   build:
-    working_directory: ~/login
+    working_directory: ~/form-validation
     docker: 
       - image: circleci/node:8.11-browsers
     steps:
