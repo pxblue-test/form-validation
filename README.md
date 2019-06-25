@@ -1,6 +1,6 @@
 # Form Validations
 
-[![CircleCI](https://circleci.com/gh/pxblue/form-validation/tree/angular.svg?style=shield)](https://circleci.com/gh/pxblue/form-validation/tree/angular)
+[![CircleCI](https://circleci.com/gh/pxblue/form-validation/tree/react.svg?style=shield)](https://circleci.com/gh/pxblue/form-validation/tree/react)
 
 This is a sample application showing how to build different types of form validations in the project.
 
