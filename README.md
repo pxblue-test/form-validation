@@ -1,4 +1,4 @@
-# Form Validation
+# Form Validation Example
 
 [![CircleCI](https://circleci.com/gh/pxblue/form-validation/tree/react.svg?style=shield)](https://circleci.com/gh/pxblue/form-validation/tree/react)
 
