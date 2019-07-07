@@ -32,15 +32,17 @@ it('does password validation', () => {
     const validationForm = shallow(<ValidationForm />).instance();
     let passwords = ["sdj!@23kdkddSS", "A^D223@kds", "!@#sd1j@DKW"]
     for (let i = 0; i < passwords.length; i++) {
+        const event = { target: { id:'newPassword', value: passwords[i]}}
         validationForm.setState({ newPassword: passwords[i] });
-        validationForm.validatePassword();
+        validationForm.validatePassword(event);
         expect(Object.values(validationForm.state.passwordErrors).includes("required")).toBe(false);
     }
 
     passwords = ["test123", "Test@paSS", "testpass!123", "TESTPASS@123", "TESTPASS123", "Testpass*123", "!@#sdj@", "", 12311111, -291223];
     for (let i = 0; i < passwords.length; i++) {
+        const event = { target: { id:'newPassword', value: passwords[i]}}
         validationForm.setState({ newPassword: passwords[i] });
-        validationForm.validatePassword();
+        validationForm.validatePassword(event);
         expect(Object.values(validationForm.state.passwordErrors).includes("required")).toBe(true);
     }
 

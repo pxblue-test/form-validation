@@ -71,13 +71,44 @@ class ValidationFrom extends React.Component {
 		};
 	}
 
-	onChange = (event) => this.setState({
-		[event.target.id]: event.target.value,
-		[`${event.target.id}Error`]: null,
-	});
+	onChange = (event) => {
+		event.persist();
+		const { id, value } = event.target;
+		this.setState({[id]: value}, () => this.validateOnFly(event));
+	}
 
+	validateOnFly = (event) => {
+		const { id } = event.target;
+		if(this.state[`${id}Error`] !== null) {
+			switch(id) {
+				case 'email':
+					this.validateEmail();
+					break;
+				case 'phoneNumber':
+					this.validatePhoneNumber();
+					break;
+				case 'input':
+					this.doRequiredValidation(event);
+					break;
+				case 'oldPassword':
+					this.doRequiredValidation(event);
+					break;
+				case 'newPassword':
+					this.doRequiredValidation(event);
+					break;
+				case 'confirmPassword':
+					this.doRequiredValidation(event);
+					break;
+				default:
+					break;
+				
+			}
+		} else {
+			this.setState({ [`${id}Error`] : null})
+		}
+	}
 
-	validatePassword = () => {
+	validatePassword = (e) => {
 		const { newPassword } = this.state;
 		const passwordErrors = {
 			minLengthRequired: newPassword.length >= 8 ? "" : "required",
@@ -87,7 +118,7 @@ class ValidationFrom extends React.Component {
 			atleast1SplCharRequired: splCharRegex.test(newPassword) ? "" : "required",
 
 		}
-		this.setState({ passwordErrors });
+		this.setState({ passwordErrors }, () => this.validateOnFly(e));
 	}
 
 	doRequiredValidation = (e) => {
@@ -106,7 +137,7 @@ class ValidationFrom extends React.Component {
 
 	}
 
-	validateEmail = (e) => {
+	validateEmail = () => { 
 		const { email } = this.state;
 		let emailError = '';
 		if (!email.trim()) {
@@ -118,16 +149,23 @@ class ValidationFrom extends React.Component {
 	}
 
 	onPasswordChange = (e) => {
-		this.setState({ newPassword: e.target.value, newPasswordError: null }, this.validatePassword);
+		e.persist();
+		this.setState({ newPassword: e.target.value }, () => this.validatePassword(e));
+	}
+
+	onConfirmPasswordChange = (e) => {
+		e.persist();
+		this.setState({ confirmPassword: e.target.value }, () => this.doRequiredValidation(e));
 	}
 
 	onPhoneNumberChange = (e) => {
+		e.persist();
 		let { value } = e.target;
 		value = value.replace(/[a-zA-Z]+/, '');
-		this.setState({ phoneNumber: value });
+		this.setState({ phoneNumber: value }, ()=> this.validateOnFly(e));
 	}
 
-	validatePhoneNumber = (e) => {
+	validatePhoneNumber = () => {
 		const { phoneNumber } = this.state;
 		let phoneNumberError = '';
 		if (!phoneNumber.trim()) {
@@ -147,7 +185,6 @@ class ValidationFrom extends React.Component {
 	}
 
 	render() {
-
 		const headerBlock = (
 			<AppBar position="static">
 				<Toolbar>
@@ -156,7 +193,7 @@ class ValidationFrom extends React.Component {
 					</IconButton>
 					<Typography variant="h6" >
 						Form Validation
- </Typography>
+ 					</Typography>
 				</Toolbar>
 			</AppBar>
 		);
@@ -180,7 +217,6 @@ class ValidationFrom extends React.Component {
 								fullWidth
 								onChange={this.onChange}
 								onBlur={this.doRequiredValidation}
-
 							/>
 
 							<TextField
@@ -202,10 +238,10 @@ class ValidationFrom extends React.Component {
 								label="Confirm Password"
 								type="password"
 								helperText={getHelperText(this.state.confirmPasswordError)}
-								onChange={this.onChange}
+								onChange={this.onConfirmPasswordChange}
 								value={this.state.confirmPassword}
-								onBlur={this.doRequiredValidation}
 								error={Boolean(this.state.confirmPasswordError)}
+								onBlur={this.doRequiredValidation}
 								required
 								fullWidth
 							/>
@@ -215,26 +251,24 @@ class ValidationFrom extends React.Component {
 							<ListItem>
 								{getValidationIcon(this.state.passwordErrors.minLengthRequired)}
 								At least 8 characters in length
- </ListItem>
+                            </ListItem>
 							<ListItem>
 								{getValidationIcon(this.state.passwordErrors.atleast1NumberRequired)}
 								At least 1 digit
- </ListItem>
+                            </ListItem>
 							<ListItem>
 								{getValidationIcon(this.state.passwordErrors.atleast1UpperCharRequired)}
 								At least 1 uppercase letter
- </ListItem>
+                            </ListItem>
 							<ListItem>
 								{getValidationIcon(this.state.passwordErrors.atleast1LowerCharRequired)}
 								At least 1 lowercase letter
- </ListItem>
+                            </ListItem>
 							<ListItem>
 								{getValidationIcon(this.state.passwordErrors.atleast1SplCharRequired)}
 
 								At least 1 special character: (valid: ! @ # $ ^ &)
-
-
- </ListItem>
+                            </ListItem>
 						</List>
 					</CardContent>
 				</Card>
