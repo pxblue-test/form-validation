@@ -12,12 +12,10 @@
     "react-scripts": "3.0.1",
     "typeface-open-sans": "^0.0.54"
   },
-
   "devDependencies": {
     "enzyme": "^3.10.0",
     "enzyme-adapter-react-16": "^1.14.0"
   },
-  
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
