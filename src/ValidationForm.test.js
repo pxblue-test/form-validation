@@ -14,47 +14,17 @@ it('renders without crashing', () => {
     ReactDOM.unmountComponentAtNode(div);
 });
 
-it('does required validation', () => {
+it('does input validation', () => {
     const validationForm = shallow(<ValidationForm />).instance();
-    let event = { target: { id: "xyz", value: "abc" } };
-    validationForm.doRequiredValidation(event)
-    expect(validationForm.state.xyzError).toBe("");
 
-    event = { target: { id: "xyz", value: "" } };
-    validationForm.doRequiredValidation(event)
-    expect(validationForm.state.xyzError).toBe("required");
+    validationForm.setState({ input: "" });
+    validationForm.validateInput();
+    expect(validationForm.state.inputError).toBe("required");
 
-});
-
-
-
-it('does password validation', () => {
-    const validationForm = shallow(<ValidationForm />).instance();
-    let passwords = ["sdj!@23kdkddSS", "A^D223@kds", "!@#sd1j@DKW"]
-    for (let i = 0; i < passwords.length; i++) {
-        const event = { target: { id:'newPassword', value: passwords[i]}}
-        validationForm.setState({ newPassword: passwords[i] });
-        validationForm.validatePassword(event);
-        expect(Object.values(validationForm.state.passwordErrors).includes("required")).toBe(false);
-    }
-
-    passwords = ["test123", "Test@paSS", "testpass!123", "TESTPASS@123", "TESTPASS123", "Testpass*123", "!@#sdj@", "", 12311111, -291223];
-    for (let i = 0; i < passwords.length; i++) {
-        const event = { target: { id:'newPassword', value: passwords[i]}}
-        validationForm.setState({ newPassword: passwords[i] });
-        validationForm.validatePassword(event);
-        expect(Object.values(validationForm.state.passwordErrors).includes("required")).toBe(true);
-    }
-
-    let event = { target: { id: "confirmPassword", value: "iam same as you" } };
-    validationForm.setState({ newPassword: "iam same as you", confirmPassword: "iam same as you" });
-    validationForm.doRequiredValidation(event)
-    expect(validationForm.state.confirmPasswordError).toBe("");
-
-    validationForm.setState({ newPassword: "iam same as you", confirmPassword: "iam not same as you" });
-    validationForm.doRequiredValidation(event)
-    expect(validationForm.state.confirmPasswordError).toBe("Passwords do not match");
-});
+    validationForm.setState({ input: "abc" });
+    validationForm.validateInput();
+    expect(validationForm.state.inputError).toBe("");
+})
 
 it('does emails validation', () => {
     const validationForm = shallow(<ValidationForm />).instance();
@@ -100,3 +70,57 @@ it('does phonenumber validation', () => {
         expect(validationForm.state.phoneNumberError).toBe("Invalid phone number");
     }
 });
+
+
+it('does old password validation', () => {
+    const validationForm = shallow(<ValidationForm />).instance();
+
+    validationForm.setState({ oldPassword: "" });
+    validationForm.validateOldPassword();
+    expect(validationForm.state.oldPasswordError).toBe("required");
+
+    validationForm.setState({ oldPassword: "abc" });
+    validationForm.validateOldPassword();
+    expect(validationForm.state.oldPasswordError).toBe("");
+})
+
+it('does new password validation', () => {
+    const validationForm = shallow(<ValidationForm />).instance();
+
+    validationForm.setState({ newPassword: "" });
+    validationForm.validateNewPassword();
+    expect(validationForm.state.newPasswordError).toBe("required");
+
+    let passwords = ["sdj!@23kdkddSS", "A^D223@kds", "!@#sd1j@DKW"]
+    for (let i = 0; i < passwords.length; i++) {
+        validationForm.setState({ newPassword: passwords[i] });
+        validationForm.validatePasswordCriteria();
+        validationForm.validateNewPassword();
+        expect(validationForm.state.newPasswordError).toBe("");
+    }
+
+    passwords = ["test123", "Test@paSS", "testpass!123", "TESTPASS@123", "TESTPASS123", "Testpass*123", "!@#sdj@", "", "12311111", "-291223"];
+    for (let i = 0; i < passwords.length; i++) {
+        validationForm.setState({ newPassword: passwords[i] });
+        validationForm.validatePasswordCriteria();
+        validationForm.validateNewPassword();
+        expect(validationForm.state.newPasswordError).toBe("required");
+    }
+});
+
+it('does confirm password validation', () => {
+    const validationForm = shallow(<ValidationForm />).instance();
+
+    validationForm.setState({ confirmPassword: "" });
+    validationForm.validateConfirmPassword();
+    expect(validationForm.state.confirmPasswordError).toBe("required");
+
+    validationForm.setState({ newPassword: "iam same as you", confirmPassword: "iam same as you" });
+    validationForm.validateConfirmPassword()
+    expect(validationForm.state.confirmPasswordError).toBe("");
+
+    validationForm.setState({ newPassword: "iam same as you", confirmPassword: "iam not same as you" });
+    validationForm.validateConfirmPassword()
+    expect(validationForm.state.confirmPasswordError).toBe("Passwords do not match");
+
+})
