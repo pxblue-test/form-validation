@@ -71,13 +71,60 @@ class ValidationFrom extends React.Component {
 		};
 	}
 
-	onChange = (event) => this.setState({
-		[event.target.id]: event.target.value,
-		[`${event.target.id}Error`]: null,
-	});
+	onInputChange = (event) => {
+		this.setState({ input: event.target.value }, () => {
+			if(this.state.inputError != null) {
+				this.validateInput();
+			} else {
+				this.setState({ inputError: null })
+			}
+		})
+	}
 
+	validateInput = () => { 
+		const { input } = this.state;
+		let inputError = '';
+		if (!input.trim()) {
+			inputError = "required";
+		}
+		this.setState({ inputError });
+	}
 
-	validatePassword = () => {
+	onOldPasswordChange = (event) => {
+		this.setState({ oldPassword: event.target.value }, () => {
+			if(this.state.oldPasswordError != null) {
+				this.validateOldPassword();
+			} else {
+				this.setState({ oldPasswordError: null })
+			}
+		})
+	}
+
+	validateOldPassword = () => { 
+		const { oldPassword } = this.state;
+		let oldPasswordError = '';
+		if (!oldPassword.trim()) {
+			oldPasswordError = "required";
+		}
+		this.setState({ oldPasswordError });
+	}
+
+	onNewPasswordChange = (e) => {
+		this.setState({ newPassword: e.target.value }, () =>{
+			this.validatePasswordCriteria(e)
+		});
+	}
+
+	validateNewPassword = () => {
+		const { newPassword } = this.state;
+		let newPasswordError = '';
+		if (!newPassword.trim() ||  Object.values(this.state.passwordErrors).includes("required")){
+			newPasswordError = "required";
+		}
+		this.setState({ newPasswordError });
+	}
+
+	validatePasswordCriteria = (e) => {
 		const { newPassword } = this.state;
 		const passwordErrors = {
 			minLengthRequired: newPassword.length >= 8 ? "" : "required",
@@ -87,26 +134,47 @@ class ValidationFrom extends React.Component {
 			atleast1SplCharRequired: splCharRegex.test(newPassword) ? "" : "required",
 
 		}
-		this.setState({ passwordErrors });
+		this.setState({ passwordErrors }, () => {
+			if(this.state.newPasswordError != null) {
+				this.validateNewPassword();
+			} else {
+				this.setState({ newPasswordError: null })
+			}
+		});
 	}
 
-	doRequiredValidation = (e) => {
-		const { id, value } = e.target;
-		let error = '';
-		if (!value.trim()) {
-			error = "required";
-		}
-		else if(id === "newPassword" && Object.values(this.state.passwordErrors).includes("required")) {
-			error = "required";
-		}
-		else if (id === "confirmPassword" && this.state.newPassword !== this.state.confirmPassword) {
-			error = "Passwords do not match";
-		}
-		this.setState({ [`${id}Error`]: error });
-
+	onConfirmPasswordChange = (event) => {
+		this.setState({ confirmPassword: event.target.value }, () => {
+			if(this.state.confirmPasswordError != null) {
+				this.validateConfirmPassword();
+			} else {
+				this.setState({ confirmPasswordError: null })
+			}
+		});
 	}
 
-	validateEmail = (e) => {
+	validateConfirmPassword = () => {
+		const { confirmPassword } = this.state;
+		let confirmPasswordError = '';
+		if (!confirmPassword.trim()) {
+			confirmPasswordError = "required";
+		} else if (this.state.newPassword !== this.state.confirmPassword) {
+			confirmPasswordError = "Passwords do not match";
+		}
+		this.setState({ confirmPasswordError });
+	}
+
+	onEmailChange = (event) => {
+		this.setState({ email: event.target.value }, () => {
+			if(this.state.emailError != null) {
+				this.validateEmail();
+			} else {
+				this.setState({ emailError: null })
+			}
+		})
+	}
+
+	validateEmail = () => { 
 		const { email } = this.state;
 		let emailError = '';
 		if (!email.trim()) {
@@ -117,17 +185,19 @@ class ValidationFrom extends React.Component {
 		this.setState({ emailError });
 	}
 
-	onPasswordChange = (e) => {
-		this.setState({ newPassword: e.target.value, newPasswordError: null }, this.validatePassword);
-	}
-
-	onPhoneNumberChange = (e) => {
-		let { value } = e.target;
+	onPhoneNumberChange = (event) => {
+		let { value } = event.target;
 		value = value.replace(/[a-zA-Z]+/, '');
-		this.setState({ phoneNumber: value });
+		this.setState({ phoneNumber: value }, () => {
+			if(this.state.phoneNumberError != null) {
+				this.validatePhoneNumber();
+			} else {
+				this.setState({ phoneNumberError: null })
+			}
+		})
 	}
 
-	validatePhoneNumber = (e) => {
+	validatePhoneNumber = () => {
 		const { phoneNumber } = this.state;
 		let phoneNumberError = '';
 		if (!phoneNumber.trim()) {
@@ -137,17 +207,13 @@ class ValidationFrom extends React.Component {
 		}
 		this.setState({ phoneNumberError });
 	}
-
-	onCharsChange = (e) => {
-		const { value } = e.target;
-		if (value.length > MAX_CHARS_LIMIT) {
-			return;
-		}
-		this.setState({ chars: value });
+	
+	onChange = (e) => {
+		const { id, value } = e.target;
+		this.setState({ [id]: value });
 	}
 
 	render() {
-
 		const headerBlock = (
 			<AppBar position="static">
 				<Toolbar>
@@ -156,7 +222,7 @@ class ValidationFrom extends React.Component {
 					</IconButton>
 					<Typography variant="h6" >
 						Form Validation
- </Typography>
+ 					</Typography>
 				</Toolbar>
 			</AppBar>
 		);
@@ -178,9 +244,8 @@ class ValidationFrom extends React.Component {
 								error={Boolean(this.state.oldPasswordError)}
 								required
 								fullWidth
-								onChange={this.onChange}
-								onBlur={this.doRequiredValidation}
-
+								onChange={this.onOldPasswordChange}
+								onBlur={this.validateOldPassword}
 							/>
 
 							<TextField
@@ -188,10 +253,10 @@ class ValidationFrom extends React.Component {
 								id="newPassword"
 								label="New Password"
 								type="password"
-								onChange={this.onPasswordChange}
+								onChange={this.onNewPasswordChange}
 								value={this.state.newPassword}
 								error={Boolean(this.state.newPasswordError)}
-								onBlur={this.doRequiredValidation}
+								onBlur={this.validateNewPassword}
 								required
 								fullWidth
 							/>
@@ -202,10 +267,10 @@ class ValidationFrom extends React.Component {
 								label="Confirm Password"
 								type="password"
 								helperText={getHelperText(this.state.confirmPasswordError)}
-								onChange={this.onChange}
+								onChange={this.onConfirmPasswordChange}
 								value={this.state.confirmPassword}
-								onBlur={this.doRequiredValidation}
 								error={Boolean(this.state.confirmPasswordError)}
+								onBlur={this.validateConfirmPassword}
 								required
 								fullWidth
 							/>
@@ -215,26 +280,24 @@ class ValidationFrom extends React.Component {
 							<ListItem>
 								{getValidationIcon(this.state.passwordErrors.minLengthRequired)}
 								At least 8 characters in length
- </ListItem>
+                            </ListItem>
 							<ListItem>
 								{getValidationIcon(this.state.passwordErrors.atleast1NumberRequired)}
 								At least 1 digit
- </ListItem>
+                            </ListItem>
 							<ListItem>
 								{getValidationIcon(this.state.passwordErrors.atleast1UpperCharRequired)}
 								At least 1 uppercase letter
- </ListItem>
+                            </ListItem>
 							<ListItem>
 								{getValidationIcon(this.state.passwordErrors.atleast1LowerCharRequired)}
 								At least 1 lowercase letter
- </ListItem>
+                            </ListItem>
 							<ListItem>
 								{getValidationIcon(this.state.passwordErrors.atleast1SplCharRequired)}
 
 								At least 1 special character: (valid: ! @ # $ ^ &)
-
-
- </ListItem>
+                            </ListItem>
 						</List>
 					</CardContent>
 				</Card>
@@ -255,9 +318,9 @@ class ValidationFrom extends React.Component {
 								fullWidth
 								required
 								value={this.state.input}
-								onChange={this.onChange}
+								onChange={this.onInputChange}
 								error={Boolean(this.state.inputError)}
-								onBlur={this.doRequiredValidation}
+								onBlur={this.validateInput}
 								InputProps={{
 									endAdornment:
 										(<InputAdornment position="end">
@@ -276,7 +339,7 @@ class ValidationFrom extends React.Component {
 								required
 								value={this.state.email}
 								error={Boolean(this.state.emailError)}
-								onChange={this.onChange}
+								onChange={this.onEmailChange}
 								onBlur={this.validateEmail}
 								InputProps={{
 									endAdornment:
