@@ -1,7 +1,7 @@
-@import '~@pxblue/colors/palette.scss';
+@import '~@pxblue/colors/palette';
 
 body {
   height: 100%;
   background-color: map-get($pxb-gray, 50);
-   margin: 0;
-} 
+  margin: 0;
+}
