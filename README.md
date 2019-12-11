@@ -6,7 +6,7 @@ This project demonstrates how to perform various types of form field validation.
 | Angular | [![CircleCI](https://circleci.com/gh/pxblue/form-validation/tree/angular.svg?style=shield)](https://circleci.com/gh/pxblue/form-validation/tree/angular) | [View on Stackblitz](https://stackblitz.com/github/pxblue/form-validation/tree/angular)
 | React | [![CircleCI](https://circleci.com/gh/pxblue/form-validation/tree/react.svg?style=shield)](https://circleci.com/gh/pxblue/form-validation/tree/react) | [View on Code Sandbox](https://codesandbox.io/s/github/pxblue/form-validation/tree/react)
 | Ionic | [![CircleCI](https://circleci.com/gh/pxblue/form-validation/tree/ionic.svg?style=shield)](https://circleci.com/gh/pxblue/form-validation/tree/ionic) | [View on Stackblitz](https://stackblitz.com/github/pxblue/form-validation/tree/ionic)
-| React Native | [![CircleCI](https://circleci.com/gh/pxblue/form-validation/tree/reactnative.svg?style=shield)](https://circleci.com/gh/pxblue/form-validation/tree/reactnative) | [View on Snack](https://snack.expo.io/@git/github.com/pxblue/form-validation@reactnative)
+| React Native | [![CircleCI](https://circleci.com/gh/pxblue/form-validation/tree/reactnative.svg?style=shield)](https://circleci.com/gh/pxblue/form-validation/tree/reactnative) | [View on Snack](https://snack.expo.io/@git/github.com/pxblue/form-validation@reactnative?preview=true&platform=ios)
 
 ## Running the Example
 ### Angular
